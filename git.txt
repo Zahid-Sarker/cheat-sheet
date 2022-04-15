@@ -1,0 +1,169 @@
+		|_______|
+		|  Git  |
+		|-------|
+
+  * Version control system
+  * Tracking of code changes over time
+  * installed and worked on local machine only
+
+		|______________|
+		|    GitHub    |
+		|--------------|
+
+  * cloud service provider for Git repository hosting
+
+		|_________________|
+		| Command Prompt  |
+		|-----------------|
+
+* to go to root directory
+	-> cd /
+* to change directory to one level up
+	-> cd ..
+* to change to different drive
+	-> cd D:
+* to create directory
+	-> mkdir dir_name
+* to delete directory
+	-> rmdir dir_name
+	-> rmdir /s dir_name (to delete folder with contents)
+* to create a file
+	-> echo {content of the file} > file_name.extension
+* to read file
+	-> type file_name.extension
+* to delete file
+	-> del file_name.extension
+* to copy or move file/folder
+	-> copy/move file/folder destination_folder
+
+		|_______________|
+		| Git commands  |
+		|---------------|
+
+* to initialize a git repository
+	-> git init
+* rename master to main branch
+	-> git branch -M main
+* to check status
+	-> git status
+* to add untracked file to staging area
+	-> git add file_name (to add single file)
+	-> git add . (to add all untracked files)
+* to check all files in staging area
+	-> git ls-files
+* to remove file from staging area
+	-> git rm file_name
+* to remove untracked/unstaged files
+	-> git clean -dn (to get an overview of the files to be deleted)
+	-> git clean -df
+* to restore files from staging to working directory
+	-> git restore file_name
+* to restore from staged area before commit
+	-> git restore --staged file_name
+* to identify before commiting
+	-> git config (--global) user.email "email@gmail.com"
+	-> git config (--global) user.name "name"
+* to commit from staging area to git repository
+	-> git commit -m "message"
+* to check commit history
+	-> git log
+* to exit git log
+	-> press q from keyboard
+* to go back to different commit
+	-> git checkout commit_id
+* to check all available branches
+	-> git branch
+* to create new branch
+	-> git branch branch-name (branch_id)
+* to switch to new branch
+	   -> git switch branch-name
+	OR -> git checkout branch-name
+* to create and switch to new branch with one command
+	   -> git switch -c branch-name
+	OR -> git checkout -b branch-name
+* to merge a branch
+	-> git merge branch-name
+* to reset commit: ONLY GO BACK TO EARLIER COMMIT, WORKING DERECTORY REMAIN SAME
+	-> git reset HEAD~1 (reset 1 commit back)
+* to soft reset commit: ONLY GO BACK TO EARLIER COMMIT, STAGING AREA WORKING DERECTORY REMAIN SAME
+	-> git reset --soft HEAD~1
+* to hard reset commit: GO BACK TO EARLIER COMMIT
+	-> git reset --hard HEAD~1
+* to delete branch
+	-> git branch -d branch_name (will only delete if the branch is merged)
+	-> git branch -D branch_name (forced delete)
+
+# temporary/internal storage : git stash
+	-> git stash (add untracked changes in the internal state)
+	-> git stash push -m "message" (to add message with the stash)
+	-> git stash list (to check all the stash available)
+	-> git stash apply [stash_index] (to apply the stash in the working directory)
+	-> git stash pop [stash_index] (to apply the stash and delete from stash list)
+	-> git stash drop [stash_index] (to drop the stash)
+	-> git stash clear (to clear all stashes)
+
+# Track deleted commit/brances
+	-> git reflog
+
+# Merge
+  # Fast-forward merge: when master branch has no new commit
+	   -> git merge branch_name (no extra commit, HEAD points to the final commit)
+	OR -> git merge --squash branch_name (merge the files to staging area, need one extra commit)
+  # Recursive merge : if there is additional commit in master branch
+	-> git merge --no-ff branch_name (HEAD points to the automatically created new commit)
+
+# Rebase: if the addidinal commit in master is need in new branch
+	-> get rebase master
+
+# Merge conflict
+	-> git merge --abort (to cancel the merge)
+	-> git log --merge (to see the commits to be merged)
+	-> git diff
+
+# Cherry-picking: merge only specific commit
+	-> git cherry-pick commit_id
+
+# Tag
+	-> git tag tag_name (-m "message") commit_id (to create tag)
+	-> git show tag_name (to check tag)
+	-> git tag -d tag_name (to delete tag)
+	-> git tag (to check all tags)
+  # Annotated tag : to add tag to the current commit
+	-> git tag -a tag_name (-m "message")
+
+
+		|__________________|
+		| GitHub commands  |
+		|------------------|
+
+* to connect git repository to remote github repository
+	-> git remote add origin URL
+* to push to github/remote repository
+	-> git push -u origin main/master
+	-> git push --force origin main/master (to forcefully push to remote repo)
+* to fetch from remote repo
+	-> git fetch origin (from origin to remote tracking branches)
+* to fetch and merge from remote repo to local
+	-> git pull origin main/master (fetch + merge)
+* to create local tracking branch
+	-> git branch --track local_tracking_branch origin/remote_tracking_branch
+# check remote and local branches
+	-> git branch -r (remote tracking branches)
+	-> git branch -a (includes remote tracking branches)
+	-> git remote
+	-> git ls-remote (remote branches)
+	-> git remote show origin (show detailed configuration)
+	-> git branch -vv (show local tracking branches and their remote)
+* to delete remote tracking branches
+	-> git branch --delete --remotes origin/branch_name
+* to delete remote repository from github
+	-> git push origin --delete branchName
+
+
+
+
+
+
+
+
+

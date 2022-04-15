@@ -1,0 +1,376 @@
+// Variable declaration
+var name = value;
+let name = value;
+const name = value;
+
+// Type conversion
+  // To string
+var = String(var);
+var = var.toString();
+  // To number
+var = Number(var);
+var = parseInt(var);
+var = parseFloat(var);
+
+// Math
+Math.PI, Math.sqrt, Math.round, Math.floor, Math.ceil
+
+// String methods
+// TO CONCAT
+string1.concat(comma_separated_strings)
+// UPPERCASE AND LOWERCASE
+string.toUpperCase(), string.toLowerCase()
+// FIND INDEX OF CHARACTER
+string.indexOf(char), string.lastIndexOf(char)
+// FIND CHARACTER AT INDEX
+string.charAt(index)
+// SUBSTRING
+string.substring(start, total_character)
+// SLICE
+string.slice(start, total_character)
+// SPLIT
+string.split()
+// REPLACE
+string.replace(replaced, replacing)
+// INCLUDES
+string.includes(substring)
+
+// TEMPLATE STRING
+`string ${variable}`
+
+// Array methods
+  // INSERT END
+array.push(value)
+  // POP END
+array.pop()
+  // INSERT FRONT
+array.unshift(value)
+  // POP FRONT
+array.shift()
+  // TO REMOVE MULTIPLE VALUES
+array.splice(start, end)
+  // TO REVERSE
+array.reverse()
+  // CONCAT TWO ARRAYS
+newArray = array.concat(array2) 
+  // TO SORT DIGIT BY DIGIT
+array.sort()
+  // TO SORT ACSENDING
+array.sort(function(x, y) {return x-y})
+
+// OBJECT LITERALS
+  // TO CREATE OBJECT
+const obj = {key:value, method:function(){} };
+  // TO ACCESS PROPERTY
+obj.key
+  // TO CALL METHOD
+obj.method()
+
+// ES6+
+  // let and const
+  // Destructuring
+    let {property1, property2} = obj
+    let [var1, var2] = array
+  // Common value and property in object
+    let obj = {a, b, c}; // instead of a:a, b:b, c:c
+  // Dynamic property in object
+    let obj = {[property]:value};
+  // Template strings
+    let a = `String ${variable}`;
+  // Default arguments
+  // Arrow function
+  // Closure: Child scope has access to parent's variable
+  // Currying: One function returning another function
+  //* MAP
+    let newArray = array.map(element => element * 2);
+  //* FILTER
+    let filteredArray = array.filter(element => condition_on_element);
+  //* REDUCE
+    let reducedArray = array.reduce((accumulator, element) => accumulator + element, valueOfAccumulator);
+  // for of -> to loop through array
+  // for in -> to loop through object
+
+// ES7
+  // Power operator: x ** y
+  // includes() on array and string
+
+// DATE
+today = new Date(); 
+anyday = new Date('month-date-year year:minute:second');
+today.getMonth(), today.getday(), today.getFullYear(),
+today.getHours(), today.getMinutes(), today.getSeconds(), today.getTime();
+
+
+// IIFEs - Immidiately Invokable Function Expressions
+(function(parameter) {}) (arguement);
+
+// FOREACH
+elements.forEach(function(element) {} );
+
+//WINDOW
+  // ALERT, PROMPT
+  // confirm('message') -> returns boolean
+  // outerHeight, outerWidth, innerHeight, innerWidth
+  // scrollY, scrollX
+  // LOCATION
+    // location, location.hostname, location.port, location.href, location.search, locatin.reload()
+
+  // HISTORY
+    // history.length
+    // history.go(-1)
+
+  // NAVIGATOR
+    // navigator.platform()
+  
+  // DOCUMENT
+    // SELECT ELEMENT
+    const selected = document.querySelector('#id or .class or tag'); -> only returns the first set
+    const selected = document.getElementById('id');
+    const selected = document.getElementsByClassName('class'); -> can be accesed through indexing
+    const selected = document.getElementsByTagName('tag'); -> can be accesed through indexing
+    const selected = document.querySelectorAll('.class or tag or #id'); -> forEach is allowed
+    // GET ATTRIBUTE
+    selected.getAttribute('attributeName');
+
+    // TO ARRAY
+    elements = Array.from(selected);
+
+    // CHANGE INNER TEXT
+    selected.innerText = 'text';
+                OR
+    selected.textContent = 'text';
+    // CHANGE INNER HTML
+    selected.innerHTML = '<tag></tag>';
+    // STYLE
+    selected.style.property = 'value';
+
+    // PROPERTIES OF ELEMENTS
+      // GET CHILD
+        selected.childNodes;
+      // GET CHILDRENS
+	selected.children;
+	selected.children.firstChild; -> returns textnodes also
+	selected.children.firstElementChild;
+	selected.children.lastChild;
+	selected.children.lastElementChild;
+      // CHILD ELEMENT COUND
+	selected.childElementCount;
+      // PARENT ELEMENT
+	selectedChildNode.parentNode; OR, selectedChildNode.parentElement;
+      // SIBLING
+	selectedItem.nextSibling;
+	selectedItem.nextElementSibling;
+	selectedItem.previousSibling;
+	selectedItem.previousElementSibling;
+
+    // CREATE ELEMENT
+      new = document.createElement('tag');
+      // ADD ID TO THE ELEMENT
+        new.id = 'idName';
+      // ADD CLASS TO THE ELEMENT
+        new.className = 'className';
+      // ADD NEW CLASSES
+	new.classList.add('className);
+      // REMOVE CLASS
+	new.classList.remove('className);
+      // ADD ATTRIBUTE TO THE ELEMENT
+        new.setAttribute('attributeName', 'value');
+      // CHECK ATTRIBUTE
+	new.hasAttribute('attributeName');
+      // REMOVE ATTRIBUTE
+	new.removeAttribute('attributeName');
+      // CREATE TEXTNODE
+	text = document.createTextNode('text');
+      // ADD TEXTNODE TO THE ELEMENT
+	new.appendChild(text);
+
+    // REPLACE ELEMENT
+      parent.replaceChild(oldElement, newElement);
+
+    // REMOVE ELEMENT
+      element.remove(); OR, parent.removeChild(childElement);
+
+// EVENT LISTENER
+  element.addEventListener('event', function(e) {});
+  // EVENT OBJECT
+    // TARGET
+      e.target;
+    // TYPE
+      e.type;
+    // POSITION RELATIVE TO WINDOW
+      e.clientY; e.clientX;
+    // POSITION RELATIVE TO THE EVENT
+      e.offsetY; e.offsetX;
+    // EVENTS: click, dblclick, mousedown, mouseup, mousemove, submit
+	// mouseenter: only when mouse enters
+	// mouseleave: only when mouse leave
+	// mouseover: after mouse enter, over any element
+	// mouseout: after mouse enter, moving out any element
+	// input: on input changes
+	// keyup; keydown; keypress;
+	// focus; blur;
+	// cut; paste;
+	// change; -> works on select input
+	// DOMContentLoaded;
+
+  // INPUT VALUE FROM FORM INPUT FIELD
+    field.value;
+
+// LOCAL STORAGE & SESSION STORAGE
+  // SET ITEM
+    localStorage.setItem('name', 'value');
+    sessionStorage.setItem('name', 'value');
+  // GET ITEM
+    localStorage.getItem('name');
+  // REMOVE ITEM
+    localStorage.removeItem('name');
+  // CLEAR STORAGE
+    localStorage.clear();
+
+// SETTIMEOUT
+  setTimeout(function, time_ms);
+
+-------------------------------------------------------------------------
+
+// AJAX
+---------
+
+// XHR: XMLHttpRequest object API
+  // CREATE XHR OBJECT
+    const xhr = new XMLHttpRequest();
+  // OPEN
+    xhr.open('GET', 'fileName', true);
+  // FOR POST REQUEST
+    xhr.setRequestHeader('Content-type', 'application/json');
+  // ONLOAD
+    xhr.onload = function() {
+      if (this.status == 200) {
+        this.responeText; // TO GET RESPONSE
+      }
+    }
+  // TO CHECK STATE
+    xhr.state; // 0-> not initialized, 1-> server connected, 2-> request recieved, 3-> processing request, 4-> request finished and response is ready
+  // ON PROGRESS STATE
+    xhr.onprogress = function() {};
+  // ON ERROR
+    xhr.onerror = function() {};
+  // TO PROVOKE THE XHR
+    xhr.send();
+
+// JSON
+  // Syntax
+    {"key":"value"} // must be double quotation
+  // Parse String to JSON Object
+    JSON.parse(string);
+
+// CALLBACK AND PROMISE
+  return new Promise(function(resolve, reject) {resolve()});
+  // AFTER PROMISE RETURN
+    .then(function).catch(function() {error});
+  // TO GET RESULTS OF ALL PROMISES TOGETHER
+    Promise.all().then(() => {});
+  // TO GET THE FASTEST PROMISE
+    Promise.race([promise1, promise2]).then(() => {});
+
+// FETCH API
+  // TO GET TEXT
+    fetch('text.txt').then(function(res) {return res.text()}).then(function(textData) {});
+  // TO GET JSON
+    fetch('file.json').then(function(res) {return res.json()}).then(function(data) {});
+  // TO GET EXTERNAL API
+    fetch('url').then(function(res) {return res.json()}).then(function(data) {});
+
+// ASYNC -> return promise from function
+  async function(return promise) {}
+
+// ERROR HANDLING
+  try {} catch(err) {}
+  // TO GET ONLY ERROR NAME
+    err.name;
+  // TO GET ONLY ERROR MESSAGE
+    err.message;
+  // TO THROW MANUAL ERROR
+    throw new Error;
+
+// REGULAR EXPRESSION
+  // CREATE REGULAR EXPRESSION
+    re = /regular_expression/;
+  // CASE INSENSITIVE
+    re = /regular_expression/i;
+  // GLOBAL INSTANCEOF RE
+    re = /regular_expression/g;
+  // RETRIEVE ORIGINAL EXPRESSION
+    re.source;
+  // MATCHING WITH INPUT
+    re.exec(input); -> returns [re, starting index, input]
+    re.test(input); -> return true/false
+  // INPUT MATCHING WITH RE
+    input.match(re); -> returns [re, starting index, input]
+    input.search(re); -> returns starting index or -1
+  // REPLACE INPUT WITH MATCHED RE
+    input.replace(re, replaced_string)
+  // Metacharacter symbols
+    // STARTS WITH X
+      re = /^x/;
+    // ENDS WITH X
+      re = /x$/;
+    // PLACEHOLDER FOR ONE WILDCARD CHARACTER
+      re = /x./; -> anything inplace of . will match
+    // ZERO OR MULTIPLE X
+      re = /x*/;
+    // AT LEAST ONE OR MORE X
+      re = /x+/;
+    // OPTIONAL CHARACTER
+      re = /x?y?z/; -> x and y are optional
+    // ESCAPE CHARACTER
+      re = /\d/; -> \ is used to escape d
+    // ANY ONE FROM THE CHARACTER SET
+      re = /ab[cd]xyz/; -> any one from c or d
+    // ANYTHING BUT THE CHARACTER SET
+      re = /ab[^cd]xyz/; -> anything but c and d
+    // ANYTHING FROM A RANGE OF CHARACTERS
+      re = /[a-z]/; -> anything from a to z
+    // x {m} TIMES - QUANTIFIERS
+      re = /Hex{2}o/;
+    // GROUPING
+      re = /(0x){3}/; -> 0x three times
+  // SHORTHAND CHARACTER CLASSES
+    // ALPHANUMERIC
+      re = /\w/;
+    // NON-ALPHANUMERIC
+      re = /\W/;
+    // NUMBER
+      re = /\d/;
+    // NON-DIGIT 
+      re = /\D/;
+    // WHITESPACE - SPACE OR TAB
+      re = /\s/;
+    // NON-WHITESPACE
+      re = /\S/;
+    // WORD BOUNDARY - EXACT WORD
+      re = /word\b/;
+    // X FOLLOWED BY Y
+      re = /x(?=y)/;
+    // X NOT FOLLOWED BY Y
+      re = /x(?!y)/;
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

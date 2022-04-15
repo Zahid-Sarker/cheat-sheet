@@ -1,0 +1,328 @@
+Part 1 : Setup, Urls & Views
+-----------------------------------------------------------------------------------------------------------------
+# Setup
+*django-admin startproject <project_name> -> Create django project
+<project_name> contains project-wise configuration
+Each module in django is called app
+*python manage.py startapp <app_name> -> Create django app
+
+# view (views.py)
+create funtion which will be executed when a certain url is requested -> funtion(request)
+-> return HttpResponse(), which can be imported from django.http
+
+# URLs/Routes (urls.py)
+add urls.py file in the app to handle all urls
+create a list of urls (urlpatterns = []) that will be needed for the app
+-> the list will include url by using -> path('url', views.funtion), which can be imported from django.urls
+-> to call view.funtion, view must be imported -> from . import views
+Finally, include the app urls to project's urls.py file in the urlpatterns list
+-> path('<app_name>', include('<app_name>.urls')
+-> include() can be imported from django.urls
+
+# Dynamic url
+create a path with a placeholder -> '<url_parameter>'
+-> path('<url_parameter>', views.function)
+-> path('<type:url_parameter>', views.function) # type: str, int, slug
+views.funtion now should take 2 parameters -> request and url_parameter
+
+# Redirect
+HttpResponseRedirect(), can be imported from django.http
+
+# Reverse
+reverse(<name_url>, args[]), can be imported from django.urls
+
+# Error
+HttpResponseNotFound(), can be imported from django.http
+------------------------------------------------------------------------------------------------------------------------
+
+Part 2 : Templates
+------------------------------------------------------------------------------------------------------------------------
+# Templates
+crate a folder 'templates' inside the app and a subfolder inside 'templates' as the same name as the app and then create html file
+
+x to convert html file to string -> return HttpResponse(render_to_string(.html)), which can be imported
+from django.template.loader import render_to_string 
+
+*better approach to render html files ->
+return render(request, .html), can be imported from django.shortcuts
+* to register the html templates ->
+settings->installed_app[]-> include the app in the installed_app list
+
+# Django Template Language (DTL)
+#variable #tag #Filter
+
+render(request, .html, {variable:dynamic_value}) ->
+in html file, use {{ variable }} to insert dynamic value
+
+* to register html templates from project folder instead of app folder
+settings->DIRS[]-> BASE_DIR/"folder_name"/"sub_folder_name"
+
+# Template inheritance
+create a folder 'templates' in root project level and keep base html file as base template
+-> In the base template create placeholder using block tag to insert value in the inharited template dynamically
+-> {% block block_name %}(optional fallback){% endblock %}
+To inherit -> {% extends '.html' %}
+To dynamically insert -> {% block block_name %}<content>{% endblock %}
+
+# Include partial template snippet
+create a subfolder inside 'templates/app_name' named 'include' or 'shared' or 'partial' and create html file
+-> {% include '.html' with context %}; (with context optional to pass extra information)
+
+# 404 template
+create '404.html' in root template folder
+-> raise Http404() to show 404.html; can be imported from django.http import Http404
+
+# Static file
+Inside app folder-> add a subfolder named static/<app_name> and create static file(css/js)
+Create css block inside base.html
+add-> {% load static %}
+add-> <link rel="stylesheet" href="{% static "static_folder/.css" %}>
+
+# Global static file
+create a folder 'static' in root project level and create global css file
+Use same procedure as static file to add the css file
+In settings, STATICFILES_DIRS = [BASE_DIR/'static']
+
+# Images as static files
+create a subfolder 'imagegs' inside the static folder of the app
+and load the images just like static files
+
+# Filter
+{{ key|filter }}
+to use add filter->
+{{ "5" | add:"2" }}
+
+# Tag
+{% tag_syntax %}
+ <body>
+{% endtag %}
+
+------------------------------------------------------------------------------------------------------------------------
+
+Part 3 : Data & Model
+------------------------------------------------------------------------------------------------------------------------
+
+Create a class inside models.py which extends models.Model
+* models should be imported -> from django.db import models
+
+-> class <class_name>(models.Model):
+Define fields for the database: models.CharField(max_length=value); models.IntegerField(); models.AutoField() #int field w/ auto increase#; models.BooleanField()
+
+** to register the models-> settings -> Installed_apps -> add the app name
+
+# Migrations
+python manage.py makemigrations
+python manage.py migrate (to actually enforce the migration)
+
+# to set default value
+models.CharField(null=True, blank=True, default=<default_value)
+
+# to insert data
+Create object of the model and provide the fields value in the parameter
+-> obj = Book(field=<value>, field=<value>)
+-> obj.save()
+
+# to create data (creating object + saving at one step)
+-> <model_name>.objects.create(parameters)
+
+# to update data
+access the objects by entry number and update the objects' attribute
+-> obj = Book.objects.all()[0]
+-> obj.attribute = value
+
+# to delete data
+-> obj.delete()
+
+# Query
+-> Book.objects.get(keyagr=value)
+* only return a single objects, for multiple objects with same keyarg_value - throw error
+
+# Filtered Query
+-> Book.objects.filter(keyarg=value)
+* return one or multiple objects with the matching criteria
+* less than filter -> filter(value__lt=3) -> value less than 3
+* contain filter -> filter(value__contains="..")
+* OR -> 
+	from django.db.models import Q
+	filter(Q(condition 1) | Q(condition 2), Q(condition 3) -> condition 1 or condition 2 and condition 3
+
+# Overriding methods in model
+* Override the get_absolute_url(self): return reverse("url_name", args=[arg])
+* Override the save(self, *args, **keywags): self.slug = slugify(self.title) super.save(*args, **keywargs); slugify can be imported from django.utils.text
+add a slug field in the model -> self.slug = models.SlugField(default="", null=False)
+
+# Admin
+to create superuser -> python manage.py createsuperuser
+* to register model ->
+admin.py of the app -> 
+from .models import <model_name>
+admin.site.register(<model_name>)
+* to change admin default settings/view ->
+create a class in admin.py of the app
+class <Model_name>Admin(admin.ModelAdmin):
+	prepopulated_fields = {"slug": ("title",)}
+	list_filter = (field1, field2)
+	list_display = (field1, field2)
+
+
+# Relationship
+create a field which points to the other model(s) by using foreign key
+
+class Author(models.Model):
+  pass
+* many-to-one
+author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='will be set to Author as a field')
+
+* one-to-one
+address = models.OneToOneField(Adress, on_delete=models.CASCADE)
+
+* many-to-many
+models.ManyToManyField(<Model_name>)
+
+* Query from Parent model
+Parent.objects.filter(<child_field>__first_name='')
+* Query from child model
+child.<Parent_model>_set.all()
+	or
+set a related_field='<name>' in foreign key
+
+------------------------------------------------------------------------------------------------------------------------
+
+Part 4 : Form
+------------------------------------------------------------------------------------------------------------------------
+
+
+# Form
+need csrf(cross site request forgery) token in the form template
+-> <form method="POST/GET" action="/">
+-> {% csrf %}
+* Create a forms.py and create a <class_name>Form class which extends forms.Form, forms can be imported from django import forms
+-> class AnyForm(forms.Form):
+	input_field = forms.CharField(label='', required=False, max_length=100, error_messages={'required':'Your messagge', 'max_length':'can't exceede'})
+
+* to load the form create an instance of the AnyForm class and pass it to the template
+-> form = AnyForm() -> {'form':form} context to the template
+* form.field, form.field.label_tag, form.field.errors are available
+* to retrieve data from form input create an instance of the AnyForm class with request.POST arguement
+-> form = AnyForm(request.POST)
+* to check validation -> form.is_valid()
+* to get clean data -> form.cleaned_data
+* to check for POST method -> if request.method == 'POST'
+
+
+* to create form from model
+class ModelForm(forms.ModelForm): # ModelForm can be imported from django.forms
+	class Meta:
+		model = ModelClass
+		fields = '__all__' # to include all fields
+		exclude = [field_names] # to exclude from the form
+		labels = {'model_field':'user_defined_field'}
+		error_messages = {model_field: {attribute:error_message} }
+
+* to save data to database using ModelForm
+form.save() # no need to save from cleaned_data
+
+* to update data using ModelForm
+use instance='' parameter while creating the instance of the model
+-> existing_data = ModelForm.objects.get(pk=)
+-> form = ReviewForm(request.POST, instance=existing_data)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+Part 5 : Class based view
+------------------------------------------------------------------------------------------------------------------------
+
+# class based view
+class ClassView(View): # View should be imported from django.views
+	def get(self, request):
+		render
+	def post(self, request):
+		render
+path('', views.ClassView.as_view())
+
+# Template rendering with class based TemplateView
+class ClassView(TemplateView): # TemplateView can be imported from django.views.generic.base
+	template_name = '<template_name>'
+	
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['context_name'] = 'context_value'
+		return context
+
+# ListView
+class ListView(ListView): # ListView can be imported form django.view.generic
+	template_name = '<template_name>'
+	model = ModelName
+	context_object_name = 'context_name' # by default, template has access to objects_list
+	
+	def get_queryset(self):
+		return super().get_queryset()
+
+# DetailView
+class DetailView(DetailView): # DetailView can be imported from django.view.generic
+	template_name = '<template_name'
+	model = ModelName
+	# path must take 'pk' as part of the url in urls.py -> path('url_name/<int:pk>)
+
+# FormView
+class FormView(FormView): # FormView can be imported from django.view.generic.edit
+	template_name = '<template_name>'
+	form_class = FormClass
+	success_url = '<redirected_url_name>'
+
+	def form_valid(self, form):
+		form.save()
+		return super().from_valid(form)
+
+# CreateView
+class CreateView(CreateView): # CreateView can be imported from django.view.generic.edit
+	template_name = '<template_name>'
+	model = ModelClass
+	form_class = FormClass # Optional: if not declared, form will be created based on model
+	success_url = '<redirected_url_name>'
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+Part 6 : File handling
+------------------------------------------------------------------------------------------------------------------------
+# Store in naive way 
+In html form tag, add enctype attribute -> enctype='multipart/form-data'
+now, view has access to request.FILES[<name_in_html>] ->> send the file to a method which handles the form
+-> inside the form handler method, 
+with open('<folder_name>', 'wb+') as dest:
+	for chunk in file.chunks():
+		dest.write(chunk)
+# Store file with model
+in settings, add MEDIA_ROOT = BASE_DIR/'<storage_folder_name>'
+field = models.FileField(upload_to='<folder_name>')
+image_field = models.FileField(upload_to='<folder_name>')
+* for image field, python -m install Pillow is needed
+
+# To serve the file
+in settings, add MEDIA_URL='<generated-url-folder-name>'
+in project urls, urlpatterns=[] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+* settings can be imported from django.conf
+* static can be imported from django.conf.url.static
+* <object>.<field>.url is available in the template
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+Part 7 : Sessions
+------------------------------------------------------------------------------------------------------------------------
+# configuration
+in settings-> MIDDLEWARE='django.contrib.sessions.middleware.SessionMiddleware' must be included (included by default)
+in settings-> INSTALLED_APPS='django.contrib.sessions' must be included (included by default)
+in settings add -> SESSION_COOKIE_AGE = value in seconds
+# to store session data
+in post method, request has access to session -> request.session['session_name'] = session_value
+# to retrieve session data
+self.request.session['session_data_name']
+
+
+
+
+
+

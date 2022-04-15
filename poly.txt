@@ -1,0 +1,32 @@
+# Polymorphism
+* method behaving differently based on the type object it receives.
+* when we use poly, anywhere a superclass is expected, can be substituted by a subclass
+* you can refer to a subclass object using a reference declared as a supertype
+
+class Order:
+  
+  def make_payment(Payment payment):
+    payment.make_payment()
+
+class Payment:
+  def make_payment():
+    pass
+
+class BankPayment(Payment):
+ def make_payment():
+    pass
+
+class OnlinePayment(Payment):
+  def make_payment():
+    pass
+
+
+Animal <-- Dog, Cat
+
+Animal animals = new Animal[2];
+
+animals[0] = new Dog();
+animals[1] = new Cat();
+
+animals[0].eat()
+animals[1].eat()

@@ -1,0 +1,249 @@
+  ##############
+ # Definition #
+##############
+
+# Database: Organized collection of data
+# Database Management System: Concept of performing operations and interacting with the database; Ex: MySql
+# SQL: Language used for Database Management
+
+  #############
+ # Data type #
+#############
+
+# Text: CHAR(<length>), VARCHAR(<length>)
+# Number: INT, DECIMAL(<total_length>, <length_after_decimal>), FLOAT, DOUBLE
+# Enum: Enum('value1', 'value2')
+
+# Date and Time
+  _____________
+
+	* Date: Format -> YYYY-MM-DD
+	* Time: Format -> HH:MM:SS
+	* Datetime: Format -> YYYY-MM-DD HH:MM:SS
+	
+	# CURDATE(): Today's date
+	# CURTIME(): Today's time
+	# NOW(): Today's date and time
+	# DAY(X), DAYNAME(X), MONTH(X), MONTHNAME(X), YEAR(X), DAYOFWEEK(X), DAYOFYEAR(X), HOUR(Y), MINUTE(Y) -> X:DATE/DATETIME TYPE, Y:TIME TYPE
+	# DATE_FORMAT(<date>, '%format %format %format')
+	# DATEDIFF(<date1>, <date2>) -> return the difference of days
+	# DATE_ADD(<date>, INTERVAL <expr> <unit>)
+	# <date> +/- INTERVAL <expr> <unit>
+
+  ########
+ # CRUD #
+########
+
+# Show all databases
+-> show databases;
+
+# Create databases
+-> CREATE DATABASE <database_name>;
+
+# Delete database
+-> DROP DATABASE <database_name>;
+
+# To select database
+-> USE <database_name>;
+
+# To check selected database
+-> SELECT database();
+
+# To create table
+-> CREATE TABLE <table_name(s)> 
+   (
+	<column_name> <data_type> {NOT NULL} {DEFAULT <value>} {AUTO_INCREMENT} {PRIMARY KEY},
+	<column_name> <data_type>,
+	PRIMARY KEY(<column_name)
+    );
+
+# To show tables
+-> SHOW TABLES;
+
+# To show columns from table
+-> SHOW COLUMNS FROM <table_name>;
+   or
+-> DESC <table_name>;
+
+# To delete table
+-> DROP TABLE <table_name>;
+
+# To delete all rows from table
+-> TRUNCATE TABLE <table_name>;
+
+# Add column
+-> ALTER TABLE <table_name> ADD COLUMN <column_name> <data_type>;
+
+# Remove column
+-> ALTER TABLE <table_name> DROP COLUMN <column_name>;
+
+# Insert data into table
+-> INSERT INTO <table_name> (<column>, <column>) 
+   VALUES                   (<value1>, <value1>),
+			    (<value2>, <value2>)
+   ;
+
+# Update
+-> UPDATE <table_name> SET <column1>=<value>, <column2>=<value> WHERE <condition>;
+
+# To disable safe update
+-> SET SQL_SAFE_UPDATE = 0;
+
+# Delete
+-> DELETE FROM <table_name> WHERE <condition>;
+
+  ###########################
+ # Modify table properties #
+###########################
+
+# Add primary key
+-> ALTER TABLE <table_name> ADD PRYMARY KEY (<column_name>);
+
+# Remove primary key
+-> ALTER TABLE <table_name> DROP PRIMARY KEY;
+
+# Add foreign key
+-> ALTER TABLE <table_name> ADD CONSTRAINT <constraint_name> FOREIGN KEY (<column_name>) REFERENCES <table_name> (<column_name>);
+
+# Remove foreign key
+-> ALTER TABLE <table_name> DROP FOREIGN KEY (<constraint_name>);
+
+# Add unique
+-> ALTER TABLE <table_name> ADD CONSTRAINT <constraint_name> UNIQUE (<column_name>);
+
+# Remove unique
+-> ALTER TABLE DROP INDEX <constraint_name>;
+
+# Rename column name
+-> ALTER TABLE <table_name> CHANGE `<old_column_name` `<new_column_name` <data_type>;
+
+# Change data type
+-> ALTER TABLE <table_name> MODIFY <column_name> <data_type>;
+
+  ##########
+ # SELECT #
+##########
+
+-> SELECT * FROM <table_name>;
+
+# Retrieve columns
+-> SELECT <column1>, <column2> FROM <table_name>;
+
+# Where clause
+-> SELECT * FROM <table_name> WHERE <condition>;
+
+# IN
+-> SELECT * FROM <table_name> WHERE <column_value> IN (<list_of_values);
+
+# BETWEEN
+-> SELECT * FROM <table_name> WHERE <column> BETWEEN <value1> AND <value2>;
+
+
+  ######################
+ # Refining Selection #
+######################
+
+-> SELECT * FROM <table_name> WHERE <column> LIKE <%string%> GROUP BY <column> ORDER BY <column> LIMIT <number> OFFSET <number>;
+
+# Distinct : only the unique entry
+-> SELECT DISTINCT <column1>, <column2> FROM <table_name>;
+
+# Order by : To sort
+-> SELECT * FROM <table_name> ORDER BY <column> {DESC};
+
+# Limit
+-> SELECT * FROM <table_name> LIMIT {<start>,} <total>;
+
+# Like
+-> SELECT * FROM <table_name> WHERE <column> LIKE '{%}<string>{%}'; # first % defines starts with and last % defines ends with
+-> SELECT * FROM <table_name> WHERE <column> LIKE '____'; # no. of _ defines the length # \ to escape wild card character -> '%\%%'
+
+# Not Like
+-> SELECT * FROM <table_name> WHERE <column> NOT LIKE '{%}<string>{%}';
+
+  ###################
+ # String function #
+###################
+
+# Concat
+-> SELECT CONCAT(<column1>, '<text>', <column2>) {AS <alias>} FROM <table_name>;
+
+# Concat with separator
+-> SELECT CONCAT_WS('<separator>', <column1>, <column2>) FROM <table_name>;
+
+# Substring
+-> SELECT SUBSTRING('<string>', <index1>, <index2>); # if index1 is not defined, from index2 upto the end. # first character is index 1 # negative indexing possible
+
+# Replace
+-> SELECT REPLACE('<string>', '<replaced_char>', '<replacing_char>');
+
+# Reverse
+-> SELECT REVERSE('<string>');
+
+# Length
+-> SELECT CHAR_LENGTH('<string>');
+
+# Upper
+-> SELECT UPPER('<string>');
+
+# Lower
+-> SELECT LOWER	('<string>');
+
+  #######################
+ # Aggregate Functions #
+#######################
+
+# Count()
+-> SELECT COUNT(*) FROM <table_name>;
+
+# Group By : Identical data into single mega row
+-> SELECT COUNT(*) FROM <table_name> GROUP BY <column>;
+
+# Max()/Min()
+-> SELECT MAX(<column>) FROM <table_name>;
+
+# Sum()
+-> SELECT SUM(<column>) FROM <table_name>;
+
+  ########
+ # Case #
+########
+
+-> SELECT <column>,
+	CASE
+	    WHEN <condition> THEN <expression1>
+	    ELSE <expression2>
+	END AS <something>
+   FROM <table_name>;
+
+  ######
+ # If #
+######
+
+IF(condition, expr1, expr2) ->> if condition:true then expr1 else expr2
+
+  ###############
+ # One to Many #
+###############
+
+# Foreign key
+-> FOREIGN KEY(<table_column>) REFERENCES <table>(<column>) ON DELETE CASCADE;
+
+# Cross join
+-> SELECT * FROM <table1>, <table2>;
+
+# Inner join
+-> SELECT * FROM <table1> JOIN <table2> ON <table1.column> = <table2.column>;
+
+# Left join
+-> SELECT * FROM <table1> LEFT JOIN <table2> ON <table1.column> = <table2.column>;
+
+# Right join
+-> SELECT * FROM <table1> RIGHT JOIN <table2> ON <table1.column> = <table2.column>;
+
+  ################
+ # Many to Many #
+################
+
+-> SELECT * FROM <table1> JOIN <union_table> ON <table1.column> = <union_table.column> JOIN <table2> ON <table2.column> = <union_table.column>;
+

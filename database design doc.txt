@@ -1,0 +1,39 @@
+# Database: something where we can store data.
+# DBMS: interacting with databases
+# RDBMS: interacting with relational databases. Ex: MySQL
+# SQL: query language
+  * DDL: Creating structure/schema of database
+  * DML: Inserting/updating data
+
+## Database design: Conceptual(idea), logical(relationship b/w tables), physical(set up)
+# Data Integrity: repeating values, incorrect values, broken relationship
+ * Entity integrity: No way of distingushing entity
+ * Referantial integrity: Broken relationship
+ * Domain integrity: improper value/data type for a column
+
+## Relationship: One to one, one to many, many to many
+
+## Keys: unique identification/reference
+# Superkey: Any number of column that forces every row to be unique
+# Candidate key: Least number of column to make every row unique
+# Primary key: one key from candidate key
+	# Surrogate key: no real meaning -> id
+	# Natural key: ex: username
+# Alternet key: all the candidate keys except primary key
+# Foreign key: reference to primary key
+# Foreign key constraints: ON DELETE, ON UPDATE (parent) -> What happens to child? ->
+				RESTRICT(operation on parent can not be done),
+				CASCADE(will delete/update children too),
+				SET NULL
+
+## Normalization: organizing data-> integrity problem, redundency
+  # 1NF: Atomicity-> no multi-valued attributes in table,
+	 Domain specific-> attribute should be within a certain domain
+	 Unique entry-> row must be unique
+  # 2NF: Remove Partial dependency-> if any column does not depend on the key, seperate it out 			 Creare seperate tables and join them using joining table
+  # 3NF: Remove Transitive dependency-> if any column depends on non-primary key
+  # BCNF: 
+
+## Index:
+  # Nonclustered: index just points to the data, not actual data
+  # Clustered: Actual data is organized based on index

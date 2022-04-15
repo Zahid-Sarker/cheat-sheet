@@ -1,0 +1,165 @@
+// INITIATE REACT PROJECT
+  npm install create-react-app
+  npx create-react-app app_name
+// TO START SERVER
+  npm start
+// JSX
+  * Dynamic value inside {}
+// PROPS
+  * Send attribute with value to the component
+  * Component will receive object with all the attributes
+  // CHILDREN PROP FOR WRAPPER COMPONENT
+    * Used to receive the child elements of wrapper component
+    props.children
+// EVENT HANDLER
+  * Event handler on the component
+  <Component onClick=function />
+// STATES
+  * To update data dynamically by reloading components when state changes
+  // useState Hook
+    cosnt [returnedValue, setMethod] = useState(initialValue);
+  // useState using object
+    const [obj, setMethod] = useState({state1: value, state2: value});
+    setMethod((prevState) => return { {...prevState, state1: updatedValue, state2: updatedValue} } );
+// CHILD TO PARENT DATA PASSING
+  * send a pointer to a method as prop from parent component
+  * execute the method in the child component received as prop and pass data as method parameter
+
+// STYLE REACT COMPONENT
+  // INLINE DYNAMIC STYLE (not good)
+    style = { {property: conditional_value} }; -> needs to provide an object, conditional value can be set using ternary operator
+  // ADDING CLASS DYNAMICALLY USING TEPLATE LITERAL
+  // USING STYLED COMPONENT PACKAGE (generate unique class name)
+    // TO INSTALL
+      npm install --save styled-components
+    // SYNTAX
+      import styled from 'styled-components';
+      const Element = styled.htmlElement`css here without class name, for nested or pseudo selector-> &:pseudo`
+      * props can be passed from component and used dynamically to style
+  // CSS MODULE (best option)
+    * name the css file as anything.module.css
+    import anyName from './anything.module.css'
+    * Component has access to any class name from css file via anyName.className
+    Ex: <button className={anyName.className}>
+    * To access classes with dash -> anyName['class-name']
+
+// FRAGMENTS
+  * to overcome the limitation of jsx's rendering multiple elements side by side
+  import {Fragment} from 'react';
+  <Fragment><Element1 /> <Element2 /> <Fragment />
+
+// PORTALS
+  * to render Component in another place in the dom
+  import ReactDom from 'react-dom';
+  ReactDOM.createPortal(Element, portal-location);
+
+// REF
+  * to create a reference with any html element
+  import {useRef} from 'react';
+  const refName = useRef();
+  * refName hold object with current key which points to the html element
+  refName -> {current: htmlElement}
+  * inside any html element use ref prop to connect to the ref
+  <input ref={refName} />
+  * to access value of input
+  refName.current.value;
+
+// EFFECT/SIDE EFFECT
+  useEffect(function(); return clearnup(), [dependencies]);
+  * the function executes after component evaluation if any changes in dependencies
+
+// REDUCER
+const reducerFn = (state, action) => {
+  if (action.type === ?) { return someState}
+  if (actions.type === #) { return someOtherState}
+}
+const [stateValue, dispatchFn] = useReducer(reducerFn, initialStateValue);
+dispatch({type: ?, payload: someValue});
+
+// CONTEXT
+  * Component-wide state storage
+  * Create a folder and create a js file not a component
+  import React from 'react';
+  const ComponentObject = React.createContext(stateValue);
+  ** ComponentObject = {Provider, Consumer}
+  * Any components wrapped within <ComponentObject.Provider> will have access to the context state
+  # Listening to Context using Consumer
+  <ComponentObject.Consumer>
+    {
+      (ctx) => {return Components} * ctx has access to the context's state
+    }
+  </ComponentObject.Consumer>
+  # useContex -> Alternative of Consumer
+  const ctx = useContext(Context); * ctx has access to context's state
+
+// MEMO
+  * only render components if there is any changes
+  export default React.memo(Component);
+
+// USECALLBACK
+  * to save the function component wide so that it does not cause rerendering
+  const saved = useCallback(() => {}, [dependencies])
+
+// USEMEMEO
+  * prevent re-evaluation based on dependencies
+  useMemo(() => {return object/function});
+
+ ////////////////////////////
+// CLASS BASED COMPONENTS //
+///////////////////////////
+
+  class ClassName extends Component {
+    render() {
+      return <Component />
+    }
+  }
+  
+  // STATES
+  constructor() {
+    this.state = {state1: value, state2: value}
+  }
+  // TO SET STATES
+  this.setState({state2: newValue});
+
+  // COMPONENTDIDMOUUNT
+    * equivalent of useEffect(..., [])
+    componentDidMount() {
+      this.setState();
+    }
+
+  // COMPONENTDIDUPDATE
+    * equivalent of useEffect(..., [dependencies])
+    componentDidUpdate(prevProps, prevStates) {
+      if prevProps !=== currProps or prevStates !== currStates 
+        this.setStates();
+    }
+
+  // COMPOENTWILLUNMOUNT
+    * remove element from the DOM
+    * equivalent of useEffect(return cleanup, []}
+
+  // USECONTEXT
+    class ClassName extends Component {
+      static contextType = Context;
+      * contextType has access to the context's state
+    }
+
+  // ERRORBOUNDARY
+    class ErrorBoundary extends Component {
+      componentDidCatch() {};
+      render() {
+        return this.props.children;
+      }
+    }
+
+// HTTP
+.......
+
+// CUSTOM HOOKS
+  * create a folder for hooks and create a js file -> use-something.js
+  const useSomething = props => {
+    ...
+    return anything(optional)
+  }
+  // TO USE CUSTOM HOOKS IN COMPONENT
+  useSomething(propsValue);
