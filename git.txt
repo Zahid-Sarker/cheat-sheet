@@ -42,7 +42,7 @@
 
 * to initialize a git repository
 	-> git init
-* rename master to main branch
+* rename master to main branch (just a convention)
 	-> git branch -M main
 * to check status
 	-> git status
