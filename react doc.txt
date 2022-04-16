@@ -65,7 +65,7 @@
   refName.current.value;
 
 // EFFECT/SIDE EFFECT
-  useEffect(function(); return clearnup(), [dependencies]);
+  useEffect(function(); return cleanup(), [dependencies]);
   * the function executes after component evaluation if any changes in dependencies
 
 // REDUCER
